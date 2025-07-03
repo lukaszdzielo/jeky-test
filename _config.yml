@@ -1,0 +1,9 @@
+title: Your awesome title
+
+baseurl: ""
+url: ""
+
+collections:
+  produkty:
+    output: true
+    permalink: /produkty/:name/
