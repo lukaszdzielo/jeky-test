@@ -4,6 +4,6 @@ baseurl: "/jeky-test"
 url: "/jeky-test"
 
 collections:
-  produkty:
+  products:
     output: true
-    permalink: /produkty/:name/
+    permalink: /products/:name/
