@@ -1,9 +1,9 @@
-title: Your awesome title
+title: fromPolandWithDev-exercise
 
-baseurl: "/jeky-test"
-url: "/jeky-test"
+baseurl: "/fromPolandWithDev-exercise"
+url: "/fromPolandWithDev-exercise"
 
 collections:
   products:
     output: true
-    permalink: /products/:name/
+    permalink: /:name/
