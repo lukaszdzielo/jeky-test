@@ -7,7 +7,59 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 <body>
-  <h1>{{ page.title }}</h1>
-  <div>SKU {{ page.sku }}</div>
+  <div x-data="{
+            result: {},
+            async getProductData() {
+                this.result = await (await fetch('/data/priscilla-suede-espresso.json')).json();
+                this.result?.price && (this.result.formattedPrice = formattedPrice(this.result?.price));
+            }
+        }" x-init="getProductData()">
+        <div>{{ page.price }}</div>
+        <div>{{ page.title }}</div>
+        <div>{{ page.sku }}</div>
+        <div>
+            <div>Color: <span>{{ page.color }}</span></div>
+            <ul class="flex flex-wrap gap-x-4 gap-y-3">
+                <template x-for="variant in result?.colorVariants || []">
+                    <li :key="variant[0]">
+                        <template x-if="result?.currentColor?.code === variant?.code">
+                            <span :title="variant?.name" class="block p-[1px] rounded-full border-2 border-[#0c2752]">
+                                <img :src="variant?.imgUrl" :alt="variant?.name" class="w-10 h-10 rounded-full object-cover">
+                            </span>
+                        </template>
+
+                        <template x-if="result?.currentColor?.code !== variant?.code">
+                            <a :href="variant[1]?.url" :title="variant?.name" class="block p-[1px] rounded-full border-2 border-transparent">
+                                <img :src="variant?.imgUrl" :alt="variant?.name" class="w-10 h-10 rounded-full object-cover">
+                            </a>
+                        </template>
+                    </li>
+                </template>
+            </ul>
+        </div>
+        <div>
+            <p>{{ page.description }}</p>
+            <button>Read more below</button>
+        </div>
+        <div class="py-2 px-4 bg-neutral-50">
+            <div class="text-neutral-800">Selected</div>
+            <ul class="flex justify-between mt-2">
+                <li>Size: <strong  x-text="result?.currentProperties?.size || '-'">-</strong></li>
+                <li>Width: <strong  x-text="result?.currentProperties?.width || '-'">-</strong></li>
+                <li>Toe + Heel: <strong  x-text="result?.currentProperties?.toe_heel || '-'">-</strong></li>
+            </ul>
+        </div>
+        <button>
+            <span>Choose size</span>
+        </button>
+        <button>Add To Cart - <span>{{ page.price }}</span></button>
+        <div>As low as $99/mo or 0% APR with Affirm. Check your purchasing power</div>
+        <button>
+            <span>Check availability in store</span>
+        </button>
+        <p>Free shipping on orders over $100</p>
+        <p>30-day return or exchange</p>
+    </div>
+
 </body>
 </html>
